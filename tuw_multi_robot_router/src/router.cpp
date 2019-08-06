@@ -89,19 +89,19 @@ bool Router::preprocessEndpoints(const std::vector<float> &_radius, const float 
         realGoals_[i] = {(goals_[i][0] - origin[0]) / resolution, (goals_[i][1] - origin[1]) / resolution};
 
         float radius = _radius[i];
-        float d_start = pointExpander_.getDistanceToObstacle(realStart_[i]);
-        ROS_DEBUG("Multi Robot Router: robot %i \"%s\" @  <%f, %f >", i, robot_names_[i].c_str(), starts_[i][0], starts_[i][1]);
-        if ( d_start < radius / 2)
-        {
-            ROS_INFO("Multi Robot Router: Start of robot %i \"%s\" @  <%f, %f > is to close to an obstacle", i, robot_names_[i].c_str(), starts_[i][0], starts_[i][1]);
-            return false;
-        }
-        float d_goal = pointExpander_.getDistanceToObstacle(realGoals_[i]);
-        if (d_goal < radius / 2)
-        {
-            ROS_INFO("Multi Robot Router: Goal of robot%i \"%s\"  @  <%f, %f > is to close to an obstacle", i, robot_names_[i].c_str(), starts_[i][0], starts_[i][1]);
-            return false;
-        }
+        // float d_start = pointExpander_.getDistanceToObstacle(realStart_[i]);
+        // ROS_DEBUG("Multi Robot Router: robot %i \"%s\" @  <%f, %f >", i, robot_names_[i].c_str(), starts_[i][0], starts_[i][1]);
+        // if ( d_start < radius / 2)
+        // {
+        //     ROS_INFO("Multi Robot Router: Start of robot %i \"%s\" @  <%f, %f > is to close to an obstacle", i, robot_names_[i].c_str(), starts_[i][0], starts_[i][1]);
+        //     return false;
+        // }
+        // float d_goal = pointExpander_.getDistanceToObstacle(realGoals_[i]);
+        // if (d_goal < radius / 2)
+        // {
+        //     ROS_INFO("Multi Robot Router: Goal of robot%i \"%s\"  @  <%f, %f > is to close to an obstacle", i, robot_names_[i].c_str(), starts_[i][0], starts_[i][1]);
+        //     return false;
+        // }
     }
 
     return true;

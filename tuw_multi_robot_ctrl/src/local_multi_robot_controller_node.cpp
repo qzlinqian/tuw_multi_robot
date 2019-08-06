@@ -85,22 +85,23 @@ LocalMultiRobotControllerNode::LocalMultiRobotControllerNode(ros::NodeHandle &n)
     n.getParam("robot_info_topic", topic_robot_info_);
 
     max_vel_v_ = 0.8;
-    n.getParam("max_v", max_vel_v_);
+    n_param_.param("max_v", max_vel_v_, max_vel_v_);
 
     max_vel_w_ = 1.0;
-    n.getParam("max_w", max_vel_w_);
+    n_param_.param("max_w", max_vel_w_, max_vel_w_);
 
     goal_r_ = 0.2;
-    n.getParam("goal_radius", goal_r_);
+    n_param_.param("goal_radius", goal_r_, goal_r_);
+
 
     Kp_val_ = 5.0;
-    n.getParam("Kp", Kp_val_);
+    n_param_.param("Kp", Kp_val_, Kp_val_);
 
     Ki_val_ = 0.0;
-    n.getParam("Ki", Ki_val_);
+    n_param_.param("Ki", Ki_val_, Ki_val_);
 
     Kd_val_ = 1.0;
-    n.getParam("Kd", Kd_val_);
+    n_param_.param("Kd", Kd_val_, Kd_val_);
 
     topic_ctrl_ = "/ctrl";
     n.getParam("topic_control", topic_ctrl_);
