@@ -54,7 +54,7 @@ LocalMultiRobotControllerNode::LocalMultiRobotControllerNode(ros::NodeHandle &n)
         for(int i = 0; i < nr_of_robots_; i++){
             robot_names_[i] = robot_prefix_ + std::to_string(i);
         }
-        
+
     }
 
     controller.resize(robot_names_.size());
@@ -107,11 +107,11 @@ LocalMultiRobotControllerNode::LocalMultiRobotControllerNode(ros::NodeHandle &n)
     n.getParam("topic_control", topic_ctrl_);
 
     n_param_.param<std::string>("frame_map", frame_map_, "map");
-    
+
     n_param_.param<double>("update_rate", update_rate_, 20.0);
-    
+
     n_param_.param<double>("update_rate_info", update_rate_info_, 1.0);
-    
+
     ROS_INFO("Multi Robot Controller:  %s", topic_cmdVel_.c_str());
 
     for (auto &ctrl : controller)
@@ -120,6 +120,7 @@ LocalMultiRobotControllerNode::LocalMultiRobotControllerNode(ros::NodeHandle &n)
         ctrl.setPID(Kp_val_, Ki_val_, Kd_val_);
         ctrl.setGoalRadius(goal_r_);
     }
+    this->_stop_pub_srv = n.advertiseService("tuw_pub_cml_vel_ctrl", &LocalMultiRobotControllerNode::stopPubService, this);
 
     for (int i = 0; i < robot_names_.size(); i++)
     {
@@ -143,7 +144,7 @@ LocalMultiRobotControllerNode::LocalMultiRobotControllerNode(ros::NodeHandle &n)
         if(robot_info_trigger_ >  (update_rate_ / update_rate_info_)) {
             robot_info_trigger_ = 0;
             publishRobotInfo();
-        } else {           
+        } else {
             robot_info_trigger_++;
         }
     }
@@ -181,14 +182,16 @@ void velocity_controller::LocalMultiRobotControllerNode::subOdomCb(const ros::Me
       active_robots[_topic] = false;
     }
 
-    geometry_msgs::Twist msg;
+    if (!this->_stop_pub) {
+      geometry_msgs::Twist msg;
 
-    float v, w;
-    controller[_topic].getSpeed(&v, &w);
-    msg.linear.x = v;
-    msg.angular.z = w;
+      float v, w;
+      controller[_topic].getSpeed(&v, &w);
+      msg.linear.x = v;
+      msg.angular.z = w;
 
-    pubCmdVel_[_topic].publish(msg);
+      pubCmdVel_[_topic].publish(msg);
+    }
 
     //Update
     PathPrecondition pc = {_topic, controller[_topic].getCount()};
@@ -304,6 +307,13 @@ void velocity_controller::LocalMultiRobotControllerNode::publishRobotInfo()
 
         pubRobotInfo_.publish(ri);
     }
+}
+
+bool velocity_controller::LocalMultiRobotControllerNode::stopPubService(std_srvs::SetBool::Request &req, std_srvs::SetBool::Response &res)
+{
+  this->_stop_pub = req.data;
+  res.success = true;
+  return true;
 }
 
 } // namespace velocity_controller

@@ -18,6 +18,7 @@ find_package(catkin REQUIRED COMPONENTS
   tuw_multi_robot_msgs
   tuw_nav_msgs
   nodelet
+  std_srvs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -111,7 +112,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES tuw_multi_robot_ctrl
-  CATKIN_DEPENDS geometry_msgs roscpp std_msgs
+  CATKIN_DEPENDS geometry_msgs roscpp std_msgs std_srvs
   #DEPENDS system_lib
 )
 
