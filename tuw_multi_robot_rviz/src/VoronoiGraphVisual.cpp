@@ -53,7 +53,7 @@ VoronoiGraphVisual::VoronoiGraphVisual(Ogre::SceneManager *scene_manager, Ogre::
 
     // initialize global variables
     colorPath_ = Ogre::ColourValue(255, 0, 0);
-    scalePoint_ = 0.1;
+    scalePoint_ = 0.01;
     scalePath_ = 1;
 }
 

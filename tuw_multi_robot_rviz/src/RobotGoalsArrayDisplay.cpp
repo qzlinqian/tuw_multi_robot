@@ -45,7 +45,7 @@ namespace tuw_multi_robot_rviz {
 // The constructor must have no arguments, so we can't give the
 // constructor the parameters it needs to fully initialize.
 RobotGoalsArrayDisplay::RobotGoalsArrayDisplay() {
-    property_scale_pose_ = new rviz::FloatProperty ( "Scale Pose", 0.4,
+    property_scale_pose_ = new rviz::FloatProperty ( "Scale Pose", 0.1,
             "Scale of the pose's pose.",
             this, SLOT ( updateScalePose() ) );
     property_scale_pose_->setMin ( 0 );

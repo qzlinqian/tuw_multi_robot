@@ -10,6 +10,7 @@
 #include <tuw_multi_robot_msgs/Route.h>
 #include <tuw_multi_robot_msgs/RobotInfo.h>
 #include <tuw_multi_robot_msgs/Pickup.h>
+#include <std_srvs/SetBool.h>
 
 #include <simple_velocity_controller/segment_controller.h>
 #include <memory>
@@ -70,6 +71,12 @@ private:
   void subPickupCb(const tuw_multi_robot_msgs::Pickup::ConstPtr&);
   std::vector<SegmentController> controller;
   int findRobotId(std::string robot_name);
+
+  // Added by Qian to stop the node from publishing cmd_vel
+  bool _stop_pub = {false};
+  ros::ServiceServer _stop_pub_srv;
+
+  bool stopPubService(std_srvs::SetBool::Request &req, std_srvs::SetBool::Response &res);
 };
 
 } // namespace velocity_controller
